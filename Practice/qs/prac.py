@@ -1,54 +1,46 @@
-#qs1
+import pandas as pd
+import mysql.connector
 
-# list = []
-# num1 = int(input("enter the data:"))
-# num2 = int(input("enter the data:"))
-# num3 = int(input("enter the data:"))
-# num4= int(input("enter the data:"))
+# Load Excel file
+df_excel = pd.read_excel(r"D:\PROGRAM\PYTHON\Practice\detail_student.xlsx") # Ensure 'id' and 'year' columns exist
 
-# list.append(num1)
-# list.append(num2)
-# list.append(num3)
-# list.append(num4)
+# Connect to MySQL database
+conn = mysql.connector.connect(
+    host="localhost",           # Update if different
+    user="root",       # 🔁 Replace with your MySQL username
+    password="Arsuljawed@123",   # 🔁 Replace with your MySQL password
+    database="SQL_PATH"    # 🔁 Replace with your MySQL DB name
+)
+cursor = conn.cursor(dictionary=True)
 
-# print(tuple(list))
+# For storing matched results
+matched_rows = []
 
+# Loop through each row in Excel and fetch matching data from MySQL
+for index, row in df_excel.iterrows():
+    student_id = int(row['student_id'])  # 🔁 Ensure 'student_id' matches your Excel column name
+    year = int(row['year'])
+    
+    query = "SELECT * FROM STUDENT_DATA WHERE STUDENT_ID = %s AND year = %s"  # 🔁 Replace 'student_table' with your actual table name
+    cursor.execute(query, (student_id, year))
+    result = cursor.fetchall()
+    
+    if result:
+        matched_rows.extend(result)
 
-#qs2
-# color_list = ["Red","Green","White" ,"Black"]
+# Convert matched result into a DataFrame
+df_matched = pd.DataFrame(matched_rows)
 
-# print(color_list[0],color_list[3])
+if 'PHONE' in df_matched.columns:
+    df_matched['PHONE'] = df_matched['PHONE'].astype(str)
 
-# #EXAMPLE:qs3
-# # Define a tuple called 'exam_st_date' containing the exam start date in the format (day, month, year)
-# exam_st_date = (11, 12, 2014)
+# Save the matched data to a new Excel file
+if not df_matched.empty:
+    df_matched.to_excel("matched_data.xlsx", index=False)
+    print("✅ Matching data saved to 'matched_data.xlsx'")
+else:
+    print("❌ No matching records found in the database.")
 
-# # Print the exam start date using string formatting
-# # The '%i' placeholders are filled with the values from the 'exam_st_date' tuple
-# print("The examination will start from : %i / %i / %i" % exam_st_date)
-
-
-
-# n = 7
-
-# sum = 0
-
-# i = 1
-
-# while i <= n:
-#     sum +=i
-#     i +=1
-# print("The total sum:", sum)
-
-n = int(input("enter the n:"))
-# n = 5
-
-fact = 1
-
-
-
-for val in range(1, n+1):
-    fact *= val
-   
-    print("the factorial is: ",fact)
-   
+# Cleanup
+cursor.close()
+conn.close()
