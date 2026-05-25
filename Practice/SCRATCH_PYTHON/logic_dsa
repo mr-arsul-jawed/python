@@ -1,0 +1,108 @@
+# list
+
+#A list is: Ordered, mutable collection
+
+'''Mutable : Can change.
+
+Example: nums = [10,20,30]
+nums[0] = 100
+
+Result: [100,20,30]
+'''
+
+
+# tuple
+#A tuple is: Ordered, immutable collection
+
+'''Internal Advantage
+
+Because immutable:
+
+Python optimizes memory.
+
+Tuple faster than list.
+
+Safer.'''
+
+'''
+Tuple Packing/Unpacking :
+
+point = (10,20)
+x,y = point
+
+Result:
+x = 10
+y = 20
+
+'''
+
+# set
+#A set is: Unordered, mutable collection of unique elements
+'''
+Internal Working
+
+Set uses: Hash Table
+
+(Important concept)
+Python converts value into: hash number
+
+Like locker system.
+
+Instead of searching linearly:
+
+Python jumps directly.
+
+Example:
+
+5 in s
+
+Python:
+
+Not: check one-by-one
+
+Instead: jump to hash location
+
+So lookup: O(1)
+
+Very fast.
+
+Example
+s = {1,2,3}
+
+print(2 in s)
+
+Fast lookup.
+'''
+
+# dictionary
+#A dictionary is: Unordered, mutable collection of key-value pairs
+
+'''Internal Working
+Think locker analogy.
+
+Example:
+
+Dictionary:
+
+{
+   "name":"Arsul"
+}
+
+Python hashes: "name" to a number.
+
+Example:
+
+locker 52
+
+So when searching:
+
+Python directly jumps:
+
+locker 52
+
+No scanning.
+
+That is why:
+
+Lookup = O(1)
+'''
